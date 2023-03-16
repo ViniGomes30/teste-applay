@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- BOOTSTRAP -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+
+  <!-- ESTILOS PRÓPRIOS -->
+  <link rel="stylesheet" href="src/styles.css">
+
+  <title>SISTEMA DE CADASTRO DE CANDIDATOS</title>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="main">
+
+      <h3>Lista de candidatos</h3>
+
+      <div class="row">
+        <div class="col-10">
+          <input id="search" type="text" class="form-control" placeholder="Buscar..." />
+        </div>
+
+        <div class="col-2">
+          <button type="button" class="btn btn-outline-primary" onclick="abrirModal()">Novo Candidato</button>
+        </div>
+      </div>
+
+      <table id="candidatos" class="table table-striped table-hover ">
+        <thead>
+          <tr>
+            <td>CPF</td>
+            <td>Nome</td>
+            <td>Celular</td>
+            <td>E-mail</td>
+            <td>Sexo</td>
+            <td>Data Nascimento</td>
+            <td>Habilidades</td>
+            <td>Editar</td>
+            <td>Remover</td>
+          </tr>
+        </thead>
+
+        <tbody id="table-body">
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="candidatoModal" tabindex="-1" aria-labelledby="candidatoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="candidatoModalLabel">Candidato</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row row g-4">
+            <input type="hidden" id="id" />
+            <div class="col-md-4">
+              <input type="text" class="form-control" id="cpf" placeholder="CPF" maxlength="14" onkeyup="handleCpf(event)" />
+            </div>
+            <div class="col-md-8">
+              <input type="text" class="form-control" id="nome" placeholder="Nome" />
+            </div>
+            <div class="col-md-4">
+              <input type="tel" class="form-control" id="celular" placeholder="Celular" maxlength="15" onkeyup="handlePhone(event)" />
+            </div>
+            <div class="col-md-4">
+              <input type="text" class="form-control" id="email" placeholder="E-mail" />
+            </div>
+            <div class="col-md-4">
+              <input type="date" class="form-control" id="nascimento" placeholder="Data Nascimento" />
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-md-4">
+              <P class="h6">Sexo</P>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="sexo" id="sexoMasculino" checked>
+                <label class="form-check-label" for="sexoMasculino">Masculino</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="sexo" id="sexoFeminino">
+                <label class="form-check-label" for="sexoFeminino">Feminino</label>
+              </div>
+            </div>
+            <!-- </div> -->
+
+            <!-- <div class="row"> -->
+            <div class="col-md-4">
+              <P class="h6">Habilidades</P>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="skillHtml">
+                <label class="form-check-label" for="skillHtml">HTML</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="skillCss">
+                <label class="form-check-label" for="skillCss">CSS</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="skillJs">
+                <label class="form-check-label" for="skillJs">JS</label>
+                <div class="item">
+                  <input class="form-check-input" type="checkbox" value="" id="skillBootstrap">
+                  <label class="form-check-label" for="skillBootstrap">BOOTSTRAP</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="salvar()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-save" viewBox="0 0 16 16">
+              <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v7.293l2.646-2.647a.5.5 0 0 1 .708.708l-3.5 3.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L7.5 9.293V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1H2z" />
+            </svg>
+            salvar
+          </button>
+          <button type="button" class="btn btn-danger" onclick="fecharModal()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+              <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+            </svg>
+            Fechar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JQUERY -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- BOOTSTRAP -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script src="src/script.js"></script>
+
+
+
+
+</body>
+
+</html>
